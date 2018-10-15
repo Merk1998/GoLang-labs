@@ -34,18 +34,12 @@ func main() {
 
 	strBuf := string(buf)
 	strBufSlice := strings.Split(strBuf, " ")
-	fmt.Println(strBufSlice)
 
-	for i := 0; i < len(strBufSlice); i++ {
-		if strBufSlice[i] == "" {
-			strBufSlice = append(strBufSlice[:i],strBufSlice[i+1:]...)
-			i--
-		}
-	}
-
-	fmt.Println(strBufSlice)
 	var intBufSlice []int
 	for _, s := range strBufSlice {
+		if s == "" {
+			continue
+		}
 		num, err := strconv.Atoi(s)
 		if err == nil {
 			intBufSlice = append(intBufSlice, num)
@@ -54,13 +48,14 @@ func main() {
 			return
 		}
 	}
-
+	fmt.Print("Not sorted slice: ")
 	fmt.Println(intBufSlice)
-	InsertionSort(intBufSlice)
+	intBufSlice = InsertionSort(intBufSlice)
+	fmt.Print("Sorted slice: ")
 	fmt.Println(intBufSlice)
 }
 
-func InsertionSort (intSlice []int) {
+func InsertionSort (intSlice []int) []int {
 	for i := 1; i < len(intSlice); i++ {
 		key := intSlice[i]
 		lst := i
@@ -73,4 +68,5 @@ func InsertionSort (intSlice []int) {
 		}
 		intSlice[lst] = key
 	}
+	return intSlice
 }
